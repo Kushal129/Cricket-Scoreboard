@@ -8,12 +8,7 @@ const WelcomePage = ({ handleStartGame }) => {
     const navigate = useNavigate(); // Use navigate to programmatically redirect
 
     const handleChange = (e) => {
-        const value = e.target.value;
-        if (value >= 1 && value <= 50) {
-            setOvers(value);
-        } else {
-            toast.error("Please enter a number between 1 and 50.");
-        }
+        setOvers(e.target.value);
     };
 
     const handleStart = () => {

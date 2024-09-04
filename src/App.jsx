@@ -5,7 +5,6 @@ import WelcomePage from "./components/WelcomePage";
 
 const App = () => {
   const handleStartGame = (overs) => {
-    // Set initial game state for both teams
     const gameState = {
       totalOvers: overs,
       currentOver: 1,
@@ -14,7 +13,7 @@ const App = () => {
       team2Score: 0,
       currentScore: 0,
       wickets: 0,
-      isTeam1Batting: true, // Assume Team 1 starts batting
+      isTeam1Batting: true,
       gameOver: false,
       showCompletionMessage: false,
     };
