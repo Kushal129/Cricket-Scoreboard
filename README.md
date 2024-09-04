@@ -22,8 +22,8 @@ A simple cricket game application built with React. This application allows you 
 1. **Clone the Repository**
 
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/Kushal129/Cricket-Scoreboard
+   cd Cricket-Scoreboard
    ```
 
 2. ** Install Dependencies ** 
