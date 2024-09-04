@@ -35,7 +35,7 @@ const Home = () => {
             setGameOver(savedState.gameOver);
             setShowCompletionMessage(savedState.showCompletionMessage);
         } else {
-            navigate("/"); // Redirect to WelcomePage if no game state
+            navigate("/");
         }
     }, [navigate]);
 
@@ -115,7 +115,7 @@ const Home = () => {
             setIsTeam1Batting(true);
             setGameOver(false);
             setShowCompletionMessage(false);
-            navigate("/"); // Redirect to WelcomePage after reset
+            navigate("/");
         }
     };
 
