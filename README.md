@@ -2,6 +2,11 @@
 
 A simple cricket game application built with React. This application allows you to simulate a cricket match by inputting the number of overs for each team, tracking scores, and viewing results.
 
+## Live Demo
+
+Check out the live version of the application here: [Cricket Scoreboard](https://cricketscoreboardkhp.netlify.app/)
+
+
 ## Features
 
 - Enter the number of overs for each team

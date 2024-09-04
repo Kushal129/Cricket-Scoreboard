@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const WelcomePage = ({ handleStartGame }) => {
     const [overs, setOvers] = useState(0);
-    const navigate = useNavigate(); // Use navigate to programmatically redirect
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setOvers(e.target.value);
@@ -16,7 +16,7 @@ const WelcomePage = ({ handleStartGame }) => {
             toast.error("Please enter a valid number of overs (1 to 50).");
         } else {
             handleStartGame(Number(overs));
-            navigate('/Home'); // Redirect to Home page after starting the game
+            navigate('/Home');
         }
     };
 
