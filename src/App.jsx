@@ -1,7 +1,8 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Home from "./components/Home";
-import WelcomePage from "./components/WelcomePage";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Home from './components/Home';
+import WelcomePage from './components/WelcomePage';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App = () => {
   const handleStartGame = (overs) => {
@@ -27,10 +28,12 @@ const App = () => {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<WelcomePage handleStartGame={handleStartGame} />} />
-        <Route path="/Home" element={isHomeAccessible() ? <Home /> : <Navigate to="/" />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<WelcomePage handleStartGame={handleStartGame} />} />
+          <Route path="/Home" element={isHomeAccessible() ? <Home /> : <Navigate to="/" />} />
+        </Routes>
+      </ErrorBoundary>
     </Router>
   );
 };
