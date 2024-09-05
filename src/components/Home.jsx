@@ -1,170 +1,154 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import WelcomePage from "./WelcomePage";
-import OverContainer from "./OverContainer";
-import ButtonsContainer from "./ButtonsContainer";
-import ScoreDisplay from "./ScoreDisplay";
 import ResultPage from "./ResultPage";
+import ButtonsContainer from "./ButtonsContainer";
+import OverContainer from "./OverContainer";
+import ScoreDisplay from "./ScoreDisplay";
 
-const Home = () => {
-    const navigate = useNavigate();
-    const [startGame, setStartGame] = useState(false);
-    const [totalOvers, setTotalOvers] = useState(0);
-    const [currentOver, setCurrentOver] = useState(1);
-    const [balls, setBalls] = useState([]);
-    const [team1Score, setTeam1Score] = useState(0);
-    const [team2Score, setTeam2Score] = useState(0);
-    const [currentScore, setCurrentScore] = useState(0);
-    const [wickets, setWickets] = useState(0);
-    const [isTeam1Batting, setIsTeam1Batting] = useState(true);
-    const [gameOver, setGameOver] = useState(false);
-    const [showCompletionMessage, setShowCompletionMessage] = useState(false);
+const Home = ({ totalOvers }) => {
+  const [currentOver, setCurrentOver] = useState(1);
+  const [balls, setBalls] = useState([]);
+  const [validBalls, setValidBalls] = useState(0); // Track valid balls (excluding no-balls and wides)
+  const [team1Score, setTeam1Score] = useState(0);
+  const [team2Score, setTeam2Score] = useState(0);
+  const [currentScore, setCurrentScore] = useState(0);
+  const [wickets, setWickets] = useState(0);
+  const [isTeam1Batting, setIsTeam1Batting] = useState(true);
+  const [gameOver, setGameOver] = useState(false);
 
-    useEffect(() => {
-        const savedState = JSON.parse(localStorage.getItem("cricketGameState"));
-        console.log("Loaded State: ", savedState); // Debug log
-        if (savedState) {
-            setStartGame(true);
-            setTotalOvers(savedState.totalOvers);
-            setCurrentOver(savedState.currentOver);
-            setBalls(savedState.balls);
-            setTeam1Score(savedState.team1Score);
-            setTeam2Score(savedState.team2Score);
-            setCurrentScore(savedState.currentScore);
-            setWickets(savedState.wickets);
-            setIsTeam1Batting(savedState.isTeam1Batting);
-            setGameOver(savedState.gameOver);
-            setShowCompletionMessage(savedState.showCompletionMessage);
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    // Switch to Team 2 when overs complete
+    if (currentOver > totalOvers) {
+      if (isTeam1Batting) {
+        setIsTeam1Batting(false);
+        resetForNextInning(); // Reset for Team 2
+      } else {
+        setGameOver(true); // End the game
+      }
+    }
+  }, [currentOver, isTeam1Batting, totalOvers]);
+
+  const handleClick = (type) => {
+    if (wickets < 10 && validBalls < 6) { // Allow click if less than 10 wickets and valid balls are under 6
+      const newBalls = [...balls, type];
+      setBalls(newBalls);
+
+      if (type === "no" || type === "wide") {
+        // No increase in valid balls, no over switch
+        setCurrentScore(currentScore + 1); // Add extra run for no or wide ball
+        if (isTeam1Batting) {
+          setTeam1Score(team1Score + 1); // Update team1 score for no/wide ball
         } else {
-            navigate("/"); // Redirect to WelcomePage if no game state
+          setTeam2Score(team2Score + 1); // Update team2 score for no/wide ball
         }
-    }, [navigate]);
-
-    useEffect(() => {
-        const gameState = {
-            totalOvers,
-            currentOver,
-            balls,
-            team1Score,
-            team2Score,
-            currentScore,
-            wickets,
-            isTeam1Batting,
-            gameOver,
-            showCompletionMessage
-        };
-        console.log("Saving State: ", gameState); // Debug log
-        localStorage.setItem("cricketGameState", JSON.stringify(gameState));
-    }, [totalOvers, currentOver, balls, team1Score, team2Score, currentScore, wickets, isTeam1Batting, gameOver, showCompletionMessage]);
-
-    const handleClick = (type) => {
-        if (wickets < 10 && balls.length < 6) {
-            const newBalls = [...balls, type];
-            setBalls(newBalls);
-
-            if (type !== "dot" && type !== "wicket" && type !== "wide" && type !== "no") {
-                const runs = parseInt(type);
-                setCurrentScore(currentScore + runs);
-                if (isTeam1Batting) {
-                    setTeam1Score(team1Score + runs);
-                } else {
-                    setTeam2Score(team2Score + runs);
-                }
-            }
-
-            if (type === "wicket") {
-                setWickets(wickets + 1);
-            }
-
-            if (newBalls.length === 6 || wickets === 10) {
-                if (currentOver === totalOvers) {
-                    if (isTeam1Batting) {
-                        setShowCompletionMessage(true);
-                        setIsTeam1Batting(false);
-                        setCurrentOver(1);
-                        setBalls([]);
-                        setWickets(0);
-                        setCurrentScore(0);
-                    } else {
-                        setGameOver(true);
-                    }
-                } else {
-                    setCurrentOver(currentOver + 1);
-                    setBalls([]);
-                }
-            }
+      } else if (type === "wicket") {
+        // Wicket falls, increment valid balls
+        setWickets(wickets + 1); // Increment wickets
+        if (validBalls < 6) {
+          setValidBalls(validBalls + 1); // Only increment valid balls if the over is not completed
         }
-    };
-
-    const handleStartGame = (overs) => {
-        if (window.confirm(`Start the match with ${overs} overs per team?`)) {
-            setTotalOvers(overs);
-            setStartGame(true);
+      } else {
+        // Normal run, ensuring valid number conversion
+        const runs = Number(type); // Convert to number
+        if (!isNaN(runs)) { // Make sure it's a valid number
+          setValidBalls(validBalls + 1); // Only valid ball if it's not wide/no
+          setCurrentScore(currentScore + runs);
+          if (isTeam1Batting) {
+            setTeam1Score(team1Score + runs);
+          } else {
+            setTeam2Score(team2Score + runs);
+          }
         }
-    };
+      }
 
-    const handleResetGame = () => {
-        if (window.confirm("Are you sure you want to reset the game? All progress will be lost.")) {
-            localStorage.removeItem("cricketGameState");
-            setStartGame(false);
-            setTotalOvers(0);
-            setCurrentOver(1);
-            setBalls([]);
-            setTeam1Score(0);
-            setTeam2Score(0);
-            setCurrentScore(0);
-            setWickets(0);
-            setIsTeam1Batting(true);
-            setGameOver(false);
-            setShowCompletionMessage(false);
-            navigate("/"); // Redirect to WelcomePage after reset
+      // Check if over should end after valid balls reach 6 or if wickets are 10
+      if (validBalls + 1 >= 6 || wickets === 10) {
+        if (currentOver >= totalOvers) {
+          if (isTeam1Batting) {
+            setIsTeam1Batting(false);
+            resetForNextInning(); // Switch innings
+          } else {
+            setGameOver(true); // End game after both innings
+          }
+        } else {
+          // Increment over and reset valid ball count
+          setCurrentOver(currentOver + 1);
+          setValidBalls(0);
+          setBalls([]);
         }
-    };
-
-    if (!startGame) {
-        return <WelcomePage handleStartGame={handleStartGame} />;
+      }
     }
+  };
 
-    if (gameOver) {
-        return <ResultPage team1Score={team1Score} team2Score={team2Score} />;
-    }
+  const resetForNextInning = () => {
+    setCurrentOver(1);
+    setBalls([]);
+    setValidBalls(0); // Reset valid balls
+    setWickets(0);
+    setCurrentScore(0);
+  };
 
-    return (
-        <div className="flex flex-col min-h-screen bg-gray-200 p-5">
-            <div className="flex flex-col md:flex-row bg-white border border-brown-700 shadow-lg rounded-lg overflow-hidden max-w-4xl mx-auto">
-                <div className="flex-1 bg-green-600 p-6 text-white flex flex-col items-center">
-                    <h1 className="text-4xl font-bold mb-4 text-center">
-                        {isTeam1Batting ? "Team 1" : "Team 2"} Batting
-                    </h1>
-                    <OverContainer balls={balls} />
-                    <ScoreDisplay
-                        currentScore={currentScore}
-                        totalScore={isTeam1Batting ? team1Score : team2Score}
-                        wickets={wickets}
-                        over={currentOver}
-                        team={isTeam1Batting ? 1 : 2}
-                    />
-                </div>
-                <div className="flex-1 bg-gray-800 p-6 text-white flex flex-col items-center">
-                    <ButtonsContainer handleClick={handleClick} />
-                    <button
-                        onClick={handleResetGame}
-                        className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-300 mt-4"
-                    >
-                        Reset Game
-                    </button>
-                </div>
-            </div>
+  const resetGame = () => {
+    setCurrentOver(1);
+    setBalls([]);
+    setValidBalls(0); // Reset valid balls
+    setTeam1Score(0);
+    setTeam2Score(0);
+    setCurrentScore(0);
+    setWickets(0);
+    setIsTeam1Batting(true);
+    setGameOver(false);
+  };
 
-            {showCompletionMessage && (
-                <div className="fixed bottom-0 left-0 w-full bg-green-500 text-white p-4 text-center">
-                    <h2 className="text-xl font-bold">Team 1 Innings Completed!</h2>
-                    <p className="mt-2">Total Score: {team1Score}</p>
-                    <p className="mt-2">Starting Team 2's Innings...</p>
-                </div>
-            )}
+  const endMatch = () => {
+    resetGame(); // Reset the game data
+    navigate('/'); // Navigate to the home page
+  };
+
+  if (gameOver) {
+    return <ResultPage team1Score={team1Score} team2Score={team2Score} />;
+  }
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-100 p-8">
+      <div className="flex flex-col lg:flex-row gap-6 max-w-6xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div className={`flex-1 p-6 flex flex-col items-center justify-center ${isTeam1Batting ? 'bg-green-500' : 'bg-red-500'} text-white`}>
+          <h1 className="text-3xl font-bold mb-4">{isTeam1Batting ? "Team 1 Batting" : "Team 2 Batting"}</h1>
+          <OverContainer balls={balls} />
+          <ScoreDisplay
+            currentScore={currentScore}
+            totalScore={isTeam1Batting ? team1Score : team2Score}
+            wickets={wickets}
+            over={currentOver}
+            team={isTeam1Batting ? 1 : 2}
+            workingBalls={validBalls} // Pass valid balls to ScoreDisplay
+          />
         </div>
-    );
+        <div className="flex-1 bg-gray-900 p-6 text-white flex flex-col items-center justify-center">
+          <ButtonsContainer handleClick={handleClick} />
+        </div>
+      </div>
+      {!isTeam1Batting && (
+        <div className="bg-yellow-500 text-center p-4 mt-6 text-xl font-bold">
+          Target Score for Team 2: <span className="bg-white p-2 rounded-sm">{team1Score + 1}</span> 
+        </div>
+      )}
+      <div className="flex justify-center gap-4 mt-6">
+        <button
+          onClick={resetGame}
+          className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          Reset Game
+        </button>
+        <button
+          onClick={endMatch}
+          className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+          End Match
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

@@ -1,39 +1,21 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Home from './components/Home';
-import WelcomePage from './components/WelcomePage';
-import ErrorBoundary from './components/ErrorBoundary';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import Home from "./components/Home";
+import WelcomePage from "./components/WelcomePage";
 
 const App = () => {
-  const handleStartGame = (overs) => {
-    const gameState = {
-      totalOvers: overs,
-      currentOver: 1,
-      balls: [],
-      team1Score: 0,
-      team2Score: 0,
-      currentScore: 0,
-      wickets: 0,
-      isTeam1Batting: true,
-      gameOver: false,
-      showCompletionMessage: false,
-    };
-    localStorage.setItem("cricketGameState", JSON.stringify(gameState));
-  };
+  const [totalOvers, setTotalOvers] = useState(null);
 
-  const isHomeAccessible = () => {
-    const savedState = JSON.parse(localStorage.getItem("cricketGameState"));
-    return savedState && savedState.totalOvers > 0;
+  const handleStartGame = (overs) => {
+    setTotalOvers(overs);
   };
 
   return (
     <Router>
-      <ErrorBoundary>
-        <Routes>
-          <Route path="/" element={<WelcomePage handleStartGame={handleStartGame} />} />
-          <Route path="/Home" element={isHomeAccessible() ? <Home /> : <Navigate to="/" />} />
-        </Routes>
-      </ErrorBoundary>
+      <Routes>
+        <Route path="/" element={<WelcomePage handleStartGame={handleStartGame} />} />
+        <Route path="/Home" element={totalOvers ? <Home totalOvers={totalOvers} /> : <Navigate to="/" />} />
+      </Routes>
     </Router>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-const ScoreDisplay = ({ currentScore, totalScore, wickets, over, team }) => {
+const ScoreDisplay = ({ currentScore, totalScore, wickets, over, team, workingBalls }) => {
     return (
         <div className="text-center">
             <p className="text-2xl font-bold">
@@ -9,6 +9,7 @@ const ScoreDisplay = ({ currentScore, totalScore, wickets, over, team }) => {
             <p className="text-lg">
                 Current Over: {over} | Current Score in Over: {currentScore}
             </p>
+            <p className="text-xl">Working Balls: {workingBalls}</p>
         </div>
     );
 };
