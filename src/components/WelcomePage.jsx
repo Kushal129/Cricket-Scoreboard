@@ -59,7 +59,7 @@ const WelcomePage = ({ handleStartGame }) => {
                 </div>
                 <ToastContainer
                     position="top-center"
-                    autoClose={3000}
+                    autoClose={4000}
                     hideProgressBar={false}
                     newestOnTop={false}
                     closeOnClick
