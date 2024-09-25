@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import bgimg from "../../public/bg.svg"
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import '../../src/index.css';
@@ -25,7 +26,7 @@ const WelcomePage = ({ handleStartGame }) => {
     };
 
     return (
-        <div className="bg-wel-bg bg-cover">
+        <div className="bg-wel-bg bg-cover" style={{ backgroundImage: `url(${bgimg})` }}>
             <div className="flex flex-col items-center justify-center min-h-screen p-5 backdrop-blur-sm">
                 <div className="bg-transparent p-8 max-w-lg w-full flex flex-col items-center space-y-6">
                     <h1 className="text-3xl font-bold text-center text-white mb-4">Welcome to Cricket Game</h1>
