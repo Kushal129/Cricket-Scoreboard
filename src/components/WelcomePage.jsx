@@ -1,9 +1,11 @@
-import { div } from "framer-motion/client";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import '../../src/index.css';
+import '../../src/App.css';
+
+
 
 const WelcomePage = ({ handleStartGame }) => {
     const [overs, setOvers] = useState("");
@@ -42,15 +44,17 @@ const WelcomePage = ({ handleStartGame }) => {
                     >
                         Start Game
                     </button> */}
-
-
-                    <button className="btn" onClick={handleStart}>
-                        <div>GET STARTED</div>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25px" height="25px" viewBox="0 0 24 24" fill="none">
-                            <path d="M11.6801 14.62L14.2401 12.06L11.6801 9.5" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
-                            <path d="M4 12.0601H14.17" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
-                            <path d="M12 4C16.42 4 20 7 20 12C20 17 16.42 20 12 20" stroke="white" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
-                        </svg>
+                    <button alt="GET START" onClick={handleStart}>
+                        <i>G</i>
+                        <i>E</i>
+                        <i>T</i>
+                        <i>&nbsp;</i>
+                        <i>S</i>
+                        <i>T</i>
+                        <i>A</i>
+                        <i>R</i>
+                        <i>T</i>
+                        <i></i>
                     </button>
                 </div>
                 <ToastContainer

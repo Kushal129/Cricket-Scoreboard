@@ -4,6 +4,8 @@ import ResultPage from "./ResultPage";
 import ButtonsContainer from "./ButtonsContainer";
 import OverContainer from "./OverContainer";
 import ScoreDisplay from "./ScoreDisplay";
+import '../../src/index.css';
+import '../../src/App.css';
 
 const Home = ({ totalOvers }) => {
   const [currentOver, setCurrentOver] = useState(1);
@@ -132,7 +134,7 @@ const Home = ({ totalOvers }) => {
       </div>
       {!isTeam1Batting && (
         <div className="bg-yellow-500 text-center p-4 mt-6 text-xl font-bold">
-          Target Score for Team 2: <span className="bg-white p-2 rounded-sm">{team1Score + 1}</span> 
+          Target Score for Team 2: <span className="bg-white p-2 rounded-sm">{team1Score + 1}</span>
         </div>
       )}
       <div className="flex justify-center gap-4 mt-6">

@@ -1,5 +1,3 @@
-
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -9,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'wel-bg': "url('./public/bg.png')",
+        'wel-bg': "url('./src/assets/bg.svg')",
       }
     },
   },
