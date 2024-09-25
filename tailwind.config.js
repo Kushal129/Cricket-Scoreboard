@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'wel-bg': "url('./src/assets/bg.svg')",
+        'wel-bg': "url('./public/bg.svg')",
       }
     },
   },
