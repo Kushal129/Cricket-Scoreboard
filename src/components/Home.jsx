@@ -125,7 +125,7 @@ const Home = ({ totalOvers }) => {
             wickets={wickets}
             over={currentOver}
             team={isTeam1Batting ? 1 : 2}
-            workingBalls={validBalls} // Pass valid balls to ScoreDisplay
+            workingBalls={validBalls}
           />
         </div>
         <div className="flex-1 bg-gray-900 p-6 text-white flex flex-col items-center justify-center">

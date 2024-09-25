@@ -1,17 +1,17 @@
 import React from "react";
 import Confetti from "react-confetti";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const ResultPage = ({ team1Score, team2Score }) => {
+    const navigate = useNavigate();
     const winner =
         team1Score > team2Score ? "Team 1 Wins!" : team1Score < team2Score ? "Team 2 Wins!" : "It's a Tie!";
 
     const handleResetGame = () => {
         localStorage.clear();
         sessionStorage.clear();
-
-        window.location.reload();
-
+        navigate('/');
     };
 
     return (
