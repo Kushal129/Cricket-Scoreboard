@@ -44,7 +44,7 @@ const WelcomePage = ({ handleStartGame }) => {
                     >
                         Start Game
                     </button> */}
-                    <button alt="GET START" onClick={handleStart}>
+                    <button className="homebtn" alt="GET START" onClick={handleStart}>
                         <i>G</i>
                         <i>E</i>
                         <i>T</i>
