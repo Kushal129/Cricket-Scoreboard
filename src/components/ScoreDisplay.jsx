@@ -7,7 +7,7 @@ const ScoreDisplay = ({ currentScore, totalScore, wickets, over, team, workingBa
                 Team {team} - Score: {totalScore} / {wickets}
             </p>
             <p className="text-lg">
-                Current Over: {over} | Current Score in Over: {currentScore}
+                {over && `Current Over: ${over} | `}Current Score in Over: {currentScore}
             </p>
             <p className="text-xl">Working Balls: {workingBalls}</p>
         </div>

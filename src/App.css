@@ -13,9 +13,10 @@
     text-transform: uppercase;
     border: 0;
     box-shadow: hsl(209, 100%, 6%) 0px 7px 0px 0px;
-    background-color: hsla(210, 100%, 12%, 0.097);
+    background-color: #a3c2ff96;
     border-radius: 12px;
     overflow: hidden;
+    color: aliceblue;
     transition: 31ms cubic-bezier(.5, .7, .4, 1);
 }
 
@@ -31,6 +32,7 @@
     color: white;
     letter-spacing: 4px;
     opacity: 1;
+    transition: all 0.3s ease;
 }
 
 .homebtn:active {
@@ -40,7 +42,6 @@
 }
 
 .homebtn:hover:before {
-    transition: all .0s;
     transform: translateY(100%);
     opacity: 0;
 }
@@ -51,13 +52,12 @@
     font-weight: bold;
     letter-spacing: 4px;
     font-style: normal;
-    transition: all 2s ease;
-    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    transform: translateY(20px);
     opacity: 0;
 }
 
 .homebtn:hover i {
-    transition: all .2s ease;
     transform: translateY(0px);
     opacity: 1;
 }
@@ -67,33 +67,37 @@
 }
 
 .homebtn:hover i:nth-child(2) {
-    transition-delay: calc(0.045s * 3);
+    transition-delay: 0.09s;
 }
 
 .homebtn:hover i:nth-child(3) {
-    transition-delay: calc(0.045s * 4);
+    transition-delay: 0.135s;
 }
 
 .homebtn:hover i:nth-child(4) {
-    transition-delay: calc(0.045s * 5);
+    transition-delay: 0.18s;
+}
+
+.homebtn:hover i:nth-child(5) {
+    transition-delay: 0.225s;
 }
 
 .homebtn:hover i:nth-child(6) {
-    transition-delay: calc(0.045s * 6);
+    transition-delay: 0.27s;
 }
 
 .homebtn:hover i:nth-child(7) {
-    transition-delay: calc(0.045s * 7);
+    transition-delay: 0.315s;
 }
 
 .homebtn:hover i:nth-child(8) {
-    transition-delay: calc(0.045s * 8);
+    transition-delay: 0.36s;
 }
 
 .homebtn:hover i:nth-child(9) {
-    transition-delay: calc(0.045s * 9);
+    transition-delay: 0.405s;
 }
 
 .homebtn:hover i:nth-child(10) {
-    transition-delay: calc(0.045s * 10);
+    transition-delay: 0.45s;
 }

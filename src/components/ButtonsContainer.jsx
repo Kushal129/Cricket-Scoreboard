@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { CiBaseball } from "react-icons/ci";
+import { LiaBaseballBallSolid } from "react-icons/lia";
 
 const buttonVariants = {
     hover: {
@@ -29,13 +29,15 @@ const ButtonsContainer = ({ handleClick }) => {
             {buttonTypes.map((button) => (
                 <motion.button
                     key={button.value}
-                    className="bg-white text-black font-semibold p-2 rounded-full hover:bg-gray-200 flex items-center gap-2"
+                    className="relative w-20 h-20 rounded-full border-2 border-gray-300 shadow-md flex items-center justify-center"
                     onClick={() => handleClick(button.value)}
-                    whileHover="hover"
                     variants={buttonVariants}
+                    alt={button.label}
                 >
-                    <CiBaseball className="text-xl" />
-                    {button.label}
+                    <span className="absolute text-center font-bold text-gray-700 z-10">
+                        {button.label}
+                    </span>
+                    <LiaBaseballBallSolid className="text-3xl opacity-10 text-black" />
                 </motion.button>
             ))}
         </div>
